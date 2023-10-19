@@ -16,6 +16,7 @@ public class RunTest {
 
         var homeColor = homePage.homeButton.getCssValue("color");
         System.out.println(homeColor);
+        System.out.println("deneme");
         
     }
 
