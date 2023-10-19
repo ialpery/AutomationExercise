@@ -10,14 +10,14 @@ public class RunTest {
     @Test
     public void test01 () {
 
-        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+        Driver.getDriver().get("http://automationexercise.com");
 
         HomePage homePage = new HomePage();
 
         var homeColor = homePage.homeButton.getCssValue("color");
         System.out.println(homeColor);
-        System.out.println("deneme");
-        
+
+        Driver.closeDriver();
     }
 
 
