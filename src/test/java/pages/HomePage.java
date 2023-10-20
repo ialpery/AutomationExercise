@@ -25,4 +25,7 @@ public class HomePage {
     @FindBy (xpath = "//*[contains(text(),\"Delete\")]")
     public WebElement deleteAccountButton ;
 
+    @FindBy (xpath = "//*[contains(text(),\"Logout\")]")
+    public WebElement logoutButton ;
+
 }

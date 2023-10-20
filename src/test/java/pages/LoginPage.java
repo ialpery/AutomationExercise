@@ -18,9 +18,23 @@ public class LoginPage {
     public WebElement nameBox ;
 
     @FindBy (xpath = "(//input[@name=\"email\"])[2]")
-    public WebElement emailBox ;
+    public WebElement registerEmailBox ;
 
     @FindBy (xpath = "//button[text()=\"Signup\"]")
     public WebElement signupButton ;
 
+    @FindBy (xpath = "//*[text()=\"Login to your account\"]")
+    public WebElement loginToYourAccountText ;
+
+    @FindBy (xpath = "(//input[@name=\"email\"])[1]")
+    public WebElement loginEmailBox ;
+
+    @FindBy (xpath = "(//input[@name=\"password\"])")
+    public WebElement passwordBox ;
+
+    @FindBy (xpath = "//*[text()=\"Login\"]")
+    public WebElement loginButton ;
+
+    @FindBy (xpath = "//*[text()=\"Your email or password is incorrect!\"]")
+    public WebElement warningMessage ;
 }

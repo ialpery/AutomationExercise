@@ -1,4 +1,5 @@
 package tests;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.JavascriptExecutor;
 
 import org.openqa.selenium.support.ui.Select;
@@ -9,76 +10,135 @@ import utilities.ConfigReader;
 import utilities.Driver;
 
 public class RunTest {
-
+    HomePage homePage = new HomePage();
+    LoginPage loginPage = new LoginPage();
+    SignUpPage signUpPage = new SignUpPage();
+    AccountCreatedPage accountCreatedPage = new AccountCreatedPage();
+    DeleteAccountPage deleteAccountPage = new DeleteAccountPage();
     @Test
-    public void test01 () throws InterruptedException {
+    public void registerTest () {
 
-        Driver.getDriver().get("http://automationexercise.com");
-
-        HomePage homePage = new HomePage();
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
 
         var homeColor = homePage.homeButton.getCssValue("color");
         Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
 
         homePage.signupButton.click();
 
-        LoginPage loginPage = new LoginPage();
 
         loginPage.newUserSignUpText.isDisplayed();
-        loginPage.nameBox.sendKeys("Alper");
-        loginPage.emailBox.sendKeys("test1@alper.com");
+        loginPage.nameBox.sendKeys(ConfigReader.getProperty("userName"));
+        loginPage.registerEmailBox.sendKeys(ConfigReader.getProperty("email"));
         loginPage.signupButton.click();
 
-        SignUpPage signUpPage = new SignUpPage();
 
         signUpPage.title.isDisplayed();
         signUpPage.selectMr.click();
-        signUpPage.passwordBox.sendKeys("123456");
+        signUpPage.passwordBox.sendKeys(ConfigReader.getProperty("password"));
 
         Select ddDays = new Select(signUpPage.selectDay);
-        ddDays.selectByVisibleText("20");
+        ddDays.selectByVisibleText(ConfigReader.getProperty("selectDay"));
 
         Select ddMonths = new Select(signUpPage.selectMonth);
-        ddMonths.selectByVisibleText("October");
+        ddMonths.selectByVisibleText(ConfigReader.getProperty("selectMonth"));
 
         Select ddYears = new Select(signUpPage.selectYear);
-        ddYears.selectByVisibleText("2020");
+        ddYears.selectByVisibleText(ConfigReader.getProperty("selectYear"));
 
 
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
         js.executeScript("arguments[0].scrollIntoView();", signUpPage.addressInformationTitle);
 
-        signUpPage.firstNameBox.sendKeys("Alper");
-        signUpPage.lastNameBox.sendKeys("Test");
-        signUpPage.companyBox.sendKeys("Apple");
-        signUpPage.addressBox.sendKeys("Test Street, Test Apartment, No:12/6");
+        signUpPage.firstNameBox.sendKeys(ConfigReader.getProperty("firstName"));
+        signUpPage.lastNameBox.sendKeys(ConfigReader.getProperty("lastName"));
+        signUpPage.companyBox.sendKeys(ConfigReader.getProperty("companyName"));
+        signUpPage.addressBox.sendKeys(ConfigReader.getProperty("address"));
 
         Select ddCountry = new Select(signUpPage.selectCountry);
-        ddCountry.selectByVisibleText("Canada");
+        ddCountry.selectByVisibleText(ConfigReader.getProperty("country"));
 
-        signUpPage.stateBox.sendKeys("Istanbul");
-        signUpPage.cityBox.sendKeys("Istanbul");
-        signUpPage.zipcodeBox.sendKeys("34340");
-        signUpPage.mobileNumberBox.sendKeys("05554442200");
+        signUpPage.stateBox.sendKeys(ConfigReader.getProperty("state"));
+        signUpPage.cityBox.sendKeys(ConfigReader.getProperty("city"));
+        signUpPage.zipcodeBox.sendKeys(ConfigReader.getProperty("zipcode"));
+        signUpPage.mobileNumberBox.sendKeys(ConfigReader.getProperty("mobileNumber"));
         signUpPage.createAccountButton.click();
 
-        AccountCreatedPage accountCreatedPage = new AccountCreatedPage();
 
         Assert.assertTrue(accountCreatedPage.accountCreatedText.isDisplayed());
         accountCreatedPage.continueButton.click();
 
         Assert.assertTrue(homePage.loggedInText.isDisplayed());
+        Assert.assertEquals(homePage.loggedInText.getText(), "Logged in as " + ConfigReader.getProperty("userName"));
+    }
+    @Test
+    public void deleteAccount () {
+
         homePage.deleteAccountButton.click();
 
-        DeleteAccountPage deleteAccountPage = new DeleteAccountPage();
+
         Assert.assertTrue(deleteAccountPage.accountDeletedText.isDisplayed());
         deleteAccountPage.continueButton.click();
 
-
-
-
         Driver.closeDriver();
     }
+
+    @Test
+    public void loginCorrectUser () {
+
+        registerTest();
+
+        homePage.signupButton.click();
+
+        loginPage.loginEmailBox.sendKeys(ConfigReader.getProperty("email"));
+        loginPage.passwordBox.sendKeys(ConfigReader.getProperty("password"));
+        loginPage.loginButton.click();
+
+        Assert.assertEquals(homePage.loggedInText.getText(), "Logged in as " + ConfigReader.getProperty("userName"));
+
+        deleteAccount();
+
+    }
+
+    @Test
+    public void loginIncorrectUser () {
+
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+
+        var homeColor = homePage.homeButton.getCssValue("color");
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
+
+        homePage.signupButton.click();
+
+
+        loginPage.loginToYourAccountText.isDisplayed();
+        loginPage.loginEmailBox.sendKeys(ConfigReader.getProperty("incorrectEmail"));
+        loginPage.passwordBox.sendKeys(ConfigReader.getProperty("incorrectPassword"));
+        loginPage.loginButton.click();
+
+        loginPage.warningMessage.isDisplayed();
+
+    }
+
+    @Test
+    public void logout () {
+
+        registerTest();
+
+        homePage.signupButton.click();
+
+        loginPage.loginEmailBox.sendKeys(ConfigReader.getProperty("email"));
+        loginPage.passwordBox.sendKeys(ConfigReader.getProperty("password"));
+        loginPage.loginButton.click();
+
+        Assert.assertEquals(homePage.loggedInText.getText(), "Logged in as " + ConfigReader.getProperty("userName"));
+
+        homePage.logoutButton.click();
+        loginPage.loginToYourAccountText.isDisplayed();
+
+
+
+    }
+
 
 
 }
