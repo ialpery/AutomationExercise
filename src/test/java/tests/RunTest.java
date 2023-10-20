@@ -1,12 +1,10 @@
 package tests;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.SignUpPage;
+import pages.*;
 import utilities.ConfigReader;
 import utilities.Driver;
 
@@ -28,7 +26,7 @@ public class RunTest {
 
         loginPage.newUserSignUpText.isDisplayed();
         loginPage.nameBox.sendKeys("Alper");
-        loginPage.emailBox.sendKeys("test@alper.com");
+        loginPage.emailBox.sendKeys("test1@alper.com");
         loginPage.signupButton.click();
 
         SignUpPage signUpPage = new SignUpPage();
@@ -63,6 +61,19 @@ public class RunTest {
         signUpPage.zipcodeBox.sendKeys("34340");
         signUpPage.mobileNumberBox.sendKeys("05554442200");
         signUpPage.createAccountButton.click();
+
+        AccountCreatedPage accountCreatedPage = new AccountCreatedPage();
+
+        Assert.assertTrue(accountCreatedPage.accountCreatedText.isDisplayed());
+        accountCreatedPage.continueButton.click();
+
+        Assert.assertTrue(homePage.loggedInText.isDisplayed());
+        homePage.deleteAccountButton.click();
+
+        DeleteAccountPage deleteAccountPage = new DeleteAccountPage();
+        Assert.assertTrue(deleteAccountPage.accountDeletedText.isDisplayed());
+        deleteAccountPage.continueButton.click();
+
 
 
 
