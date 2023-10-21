@@ -36,5 +36,8 @@ public class LoginPage {
     public WebElement loginButton ;
 
     @FindBy (xpath = "//*[text()=\"Your email or password is incorrect!\"]")
-    public WebElement warningMessage ;
+    public WebElement loginWarningMessage ;
+
+    @FindBy (xpath = "//*[text()=\"Email Address already exist!\"]")
+    public WebElement registerWarningMessage ;
 }

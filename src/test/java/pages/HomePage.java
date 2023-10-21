@@ -28,4 +28,7 @@ public class HomePage {
     @FindBy (xpath = "//*[contains(text(),\"Logout\")]")
     public WebElement logoutButton ;
 
+    @FindBy (xpath = "//*[text()=\" Contact us\"]")
+    public WebElement contactUsButton ;
+
 }

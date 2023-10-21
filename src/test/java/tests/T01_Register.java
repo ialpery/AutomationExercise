@@ -9,12 +9,14 @@ import pages.*;
 import utilities.ConfigReader;
 import utilities.Driver;
 
-public class RunTest {
+public class T01_Register {
     HomePage homePage = new HomePage();
     LoginPage loginPage = new LoginPage();
     SignUpPage signUpPage = new SignUpPage();
     AccountCreatedPage accountCreatedPage = new AccountCreatedPage();
     DeleteAccountPage deleteAccountPage = new DeleteAccountPage();
+
+    ContactUsPage contactUsPage = new ContactUsPage() ;
     @Test
     public void registerTest () {
 
@@ -115,7 +117,7 @@ public class RunTest {
         loginPage.passwordBox.sendKeys(ConfigReader.getProperty("incorrectPassword"));
         loginPage.loginButton.click();
 
-        loginPage.warningMessage.isDisplayed();
+        loginPage.loginWarningMessage.isDisplayed();
 
     }
 
@@ -135,10 +137,41 @@ public class RunTest {
         homePage.logoutButton.click();
         loginPage.loginToYourAccountText.isDisplayed();
 
+    }
 
+    @Test
+    public void registerExistingEmail () {
+
+        registerTest();
+
+        homePage.signupButton.click();
+        loginPage.newUserSignUpText.isDisplayed();
+        loginPage.nameBox.sendKeys(ConfigReader.getProperty("userName"));
+        loginPage.loginEmailBox.sendKeys(ConfigReader.getProperty("email"));
+        loginPage.signupButton.click();
+
+        Assert.assertEquals(loginPage.registerWarningMessage.getText(), "Email Address already exist! ");
 
     }
 
+    @Test
+    public void uploadFile () {
+
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+
+        var homeColor = homePage.homeButton.getCssValue("color");
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
+
+        homePage.contactUsButton.click();
+
+        String actualGetInTouchText = contactUsPage.getInTouchText.getText();
+        String expectedGetInTouchText = "GET IN TOUCH" ;
+
+        Assert.assertEquals(actualGetInTouchText, expectedGetInTouchText);
+
+
+
+    }
 
 
 }
