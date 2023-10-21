@@ -26,4 +26,12 @@ public class ContactUsPage {
     @FindBy (id = "message")
     public WebElement messageBox ;
 
+    @FindBy (xpath = "//input[@name=\"upload_file\"]")
+    public WebElement uploadFileButton ;
+
+    @FindBy (xpath = "//input[@name=\"submit\"]")
+    public WebElement submitButton ;
+
+
+
 }

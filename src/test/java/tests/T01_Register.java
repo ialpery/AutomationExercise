@@ -1,5 +1,6 @@
 package tests;
 import org.checkerframework.checker.units.qual.C;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 
 import org.openqa.selenium.support.ui.Select;
@@ -155,7 +156,7 @@ public class T01_Register {
     }
 
     @Test
-    public void uploadFile () {
+    public void uploadFile () throws InterruptedException {
 
         Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
 
@@ -168,6 +169,22 @@ public class T01_Register {
         String expectedGetInTouchText = "GET IN TOUCH" ;
 
         Assert.assertEquals(actualGetInTouchText, expectedGetInTouchText);
+
+        contactUsPage.nameBox.sendKeys(ConfigReader.getProperty("userName"));
+        contactUsPage.emailBox.sendKeys(ConfigReader.getProperty("email"));
+        contactUsPage.subjectBox.sendKeys("Somewhere elsewhere anywhere");
+        contactUsPage.messageBox.sendKeys(ConfigReader.getProperty("contactUsMessage"));
+        contactUsPage.uploadFileButton.sendKeys("/Users/ibrahimalperyigit/Downloads/IMG_3998.png");
+
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+
+        contactUsPage.submitButton.click();
+        Thread.sleep(3000);
+        Alert alert = Driver.getDriver().switchTo().alert();
+
+        alert.dismiss();
+
 
 
 
