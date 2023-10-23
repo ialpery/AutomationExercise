@@ -36,7 +36,7 @@ public class HomePage {
 
     @FindBy (xpath = "//*[(text()=\" Products\")]")
     public WebElement productsButton ;
-
+    
     @FindBy (xpath = "//div[@class=\"single-widget\"]/form/p")
     public WebElement footerText ;
 
@@ -51,7 +51,5 @@ public class HomePage {
 
     @FindBy (id = "success-subscribe")
     public WebElement successSubscribeMessage ;
-
-
 
 }
