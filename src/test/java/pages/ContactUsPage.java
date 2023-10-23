@@ -14,19 +14,19 @@ public class ContactUsPage {
     @FindBy (xpath = "//*[text()=\"Get In Touch\"]")
     public WebElement getInTouchText ;
 
-    @FindBy (xpath = "//input[@name=\"name\"]")
+    @FindBy (name = "name")
     public WebElement nameBox ;
 
-    @FindBy (xpath = "//input[@name=\"email\"]")
+    @FindBy (name = "email")
     public WebElement emailBox ;
 
-    @FindBy (xpath = "//input[@name=\"subject\"]")
+    @FindBy (name = "subject")
     public WebElement subjectBox ;
 
     @FindBy (id = "message")
     public WebElement messageBox ;
 
-    @FindBy (xpath = "//input[@name=\"upload_file\"]")
+    @FindBy (name = "upload_file")
     public WebElement uploadFileButton ;
 
     @FindBy (xpath = "//input[@name=\"submit\"]")

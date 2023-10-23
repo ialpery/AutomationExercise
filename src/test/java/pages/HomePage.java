@@ -34,4 +34,24 @@ public class HomePage {
     @FindBy (xpath = "//*[(text()=\" Test Cases\")]")
     public WebElement testCasesButton ;
 
+    @FindBy (xpath = "//*[(text()=\" Products\")]")
+    public WebElement productsButton ;
+
+    @FindBy (xpath = "//div[@class=\"single-widget\"]/form/p")
+    public WebElement footerText ;
+
+    @FindBy (xpath = "//*[text()=\"Subscription\"]")
+    public WebElement subscriptionText ;
+
+    @FindBy (id = "susbscribe_email")
+    public WebElement subscribeEmail ;
+
+    @FindBy (id = "subscribe")
+    public WebElement subscribeButton ;
+
+    @FindBy (id = "success-subscribe")
+    public WebElement successSubscribeMessage ;
+
+
+
 }

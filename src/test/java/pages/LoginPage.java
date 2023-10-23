@@ -14,7 +14,7 @@ public class LoginPage {
     @FindBy (xpath = "//h2[text()=\"New User Signup!\"]")
     public WebElement newUserSignUpText ;
 
-    @FindBy (xpath = "//input[@name=\"name\"]")
+    @FindBy (name = "name")
     public WebElement nameBox ;
 
     @FindBy (xpath = "(//input[@name=\"email\"])[2]")
@@ -29,7 +29,7 @@ public class LoginPage {
     @FindBy (xpath = "(//input[@name=\"email\"])[1]")
     public WebElement loginEmailBox ;
 
-    @FindBy (xpath = "(//input[@name=\"password\"])")
+    @FindBy (name = "password")
     public WebElement passwordBox ;
 
     @FindBy (xpath = "//*[text()=\"Login\"]")

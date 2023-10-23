@@ -3,6 +3,7 @@ import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,14 +11,17 @@ import pages.*;
 import utilities.ConfigReader;
 import utilities.Driver;
 
-public class T01_Register {
-    HomePage homePage = new HomePage();
-    LoginPage loginPage = new LoginPage();
-    SignUpPage signUpPage = new SignUpPage();
-    AccountCreatedPage accountCreatedPage = new AccountCreatedPage();
-    DeleteAccountPage deleteAccountPage = new DeleteAccountPage();
+import java.util.List;
 
-    ContactUsPage contactUsPage = new ContactUsPage() ;
+public class T01_Register {
+        HomePage homePage = new HomePage();
+        LoginPage loginPage = new LoginPage();
+        SignUpPage signUpPage = new SignUpPage();
+        AccountCreatedPage accountCreatedPage = new AccountCreatedPage();
+        DeleteAccountPage deleteAccountPage = new DeleteAccountPage();
+        ContactUsPage contactUsPage = new ContactUsPage();
+        ProductsPage productsPage = new ProductsPage();
+        ProductDetailPage productDetailPage = new ProductDetailPage();
     @Test
     public void registerTest () {
 
@@ -100,6 +104,8 @@ public class T01_Register {
 
         deleteAccount();
 
+        Driver.closeDriver();
+
     }
 
     @Test
@@ -120,6 +126,8 @@ public class T01_Register {
 
         loginPage.loginWarningMessage.isDisplayed();
 
+        Driver.closeDriver();
+
     }
 
     @Test
@@ -138,6 +146,8 @@ public class T01_Register {
         homePage.logoutButton.click();
         loginPage.loginToYourAccountText.isDisplayed();
 
+        Driver.closeDriver();
+
     }
 
     @Test
@@ -152,6 +162,8 @@ public class T01_Register {
         loginPage.signupButton.click();
 
         Assert.assertEquals(loginPage.registerWarningMessage.getText(), "Email Address already exist! ");
+
+        Driver.closeDriver();
 
     }
 
@@ -192,10 +204,12 @@ public class T01_Register {
 
         Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
 
+        Driver.closeDriver();
+
     }
 
-        @Test
-        public void verifyTestCasePage () {
+    @Test
+    public void verifyTestCasePage () {
 
         Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
 
@@ -205,7 +219,95 @@ public class T01_Register {
         homePage.testCasesButton.click();
         Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("test_cases"));
 
-        }
+        Driver.closeDriver();
+
+    }
+
+    @Test
+    public void productsPage () {
+
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+
+        var homeColor = homePage.homeButton.getCssValue("color");
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
+
+        homePage.productsButton.click();
+        Assert.assertTrue(Driver.getDriver().getTitle().contains("products"));
+
+        String actualAllProductsTitle = productsPage.allProductsText.getText();
+        String expectedAllProductsTitle = "ALL PRODUCTS";
+
+        Assert.assertEquals(actualAllProductsTitle, expectedAllProductsTitle);
+
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", productsPage.babyhugBrand);
+
+        productsPage.firstViewProduct.click();
+        productDetailPage.productName.isDisplayed();
+        productDetailPage.category.isDisplayed();
+        productDetailPage.price.isDisplayed();
+        productDetailPage.availability.isDisplayed();
+        productDetailPage.condition.isDisplayed();
+        productDetailPage.brand.isDisplayed();
+
+        Driver.closeDriver();
+
+    }
+
+    @Test
+    public void searchProduct () {
+
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+
+        var homeColor = homePage.homeButton.getCssValue("color");
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
+
+        homePage.productsButton.click();
+        Assert.assertTrue(Driver.getDriver().getTitle().contains("products"));
+
+        String actualAllProductsTitle = productsPage.allProductsText.getText();
+        String expectedTitle = "ALL PRODUCTS";
+
+        Assert.assertEquals(actualAllProductsTitle, expectedTitle);
+
+        productsPage.searchProductBox.sendKeys(ConfigReader.getProperty("searchingProduct"));
+        productsPage.submitSearch.click();
+
+        String actualSearchedProductsText = productsPage.searchedProductsText.getText();
+        String expectedSearchedProductsText = "SEARCHED PRODUCTS";
+
+        Assert.assertEquals(actualSearchedProductsText, expectedSearchedProductsText);
+
+        productsPage.listedProducts.isDisplayed();
+
+        Driver.closeDriver();
+
+    }
+
+    @Test
+    public void verifySubscription () {
+
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+
+        var homeColor = homePage.homeButton.getCssValue("color");
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
+
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript("arguments[0].scrollIntoView();", homePage.footerText);
+
+        String actualSubscriptionText = homePage.subscriptionText.getText();
+        String expectedSubscriptionText = "SUBSCRIPTION";
+
+        Assert.assertEquals(actualSubscriptionText, expectedSubscriptionText);
+
+        homePage.subscribeEmail.sendKeys(ConfigReader.getProperty("email"));
+        homePage.subscribeButton.click();
+        homePage.successSubscribeMessage.isDisplayed();
+
+        Driver.closeDriver();
+
+
+    }
 
 
 }
