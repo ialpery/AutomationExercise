@@ -32,6 +32,10 @@ public class ContactUsPage {
     @FindBy (xpath = "//input[@name=\"submit\"]")
     public WebElement submitButton ;
 
+    @FindBy (xpath = "(//div[contains(text(),\"Your details\")])[1]")
+    public WebElement successMessage ;
 
+    @FindBy (xpath = "//*[(text()=\" Home\")]")
+    public WebElement homeButton ;
 
 }

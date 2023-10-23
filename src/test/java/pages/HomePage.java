@@ -31,4 +31,7 @@ public class HomePage {
     @FindBy (xpath = "//*[text()=\" Contact us\"]")
     public WebElement contactUsButton ;
 
+    @FindBy (xpath = "//*[(text()=\" Test Cases\")]")
+    public WebElement testCasesButton ;
+
 }

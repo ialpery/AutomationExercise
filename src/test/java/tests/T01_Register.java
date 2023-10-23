@@ -185,10 +185,27 @@ public class T01_Register {
 
         alert.dismiss();
 
+        js.executeScript("arguments[0].scrollIntoView();", contactUsPage.homeButton);
 
+        contactUsPage.successMessage.isDisplayed();
+        contactUsPage.homeButton.click();
 
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
 
     }
+
+        @Test
+        public void verifyTestCasePage () {
+
+        Driver.getDriver().get(ConfigReader.getProperty("aeUrl"));
+
+        var homeColor = homePage.homeButton.getCssValue("color");
+        Assert.assertEquals(homeColor, "rgba(255, 165, 0, 1)");
+
+        homePage.testCasesButton.click();
+        Assert.assertTrue(Driver.getDriver().getCurrentUrl().contains("test_cases"));
+
+        }
 
 
 }
